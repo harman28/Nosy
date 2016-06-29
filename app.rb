@@ -8,6 +8,8 @@ require './config/environments' #database configuration
 require './config/constants'
 
 before do
+  content_type 'application/json'
+
   if request.path_info.include? 'tokens'
     check_access_key
   else
@@ -25,10 +27,12 @@ get '/updates' do
 end
 
 post '/updates' do
-  create_attrs = params.with_indifferent_access.slice(:team_id, :user_id, :user_name, :text)
-  update = Update.new(create_attrs)
+  attrs = params.with_indifferent_access.slice(:team_id, :user_id, :user_name, :text)
+  update = Update.find_by(team_id: attrs[:team_id],user_id: attrs[:user_id])
+  update.destroy! if update.present?
+  update = Update.new(attrs)
   if update.save
-    update.to_json
+    prepare_response(update.presentable, 'ephemeral')
   else
     halt 400, @update.errors.to_json
   end
@@ -50,6 +54,14 @@ end
 
 private
 
+def prepare_response text, response_type='ephemeral'
+  response_type = 'ephemeral' if response_type != 'in_channel'
+  {
+    "response_type": response_type,
+    "text": text
+  }.to_json
+end
+
 def check_access_key
   access_key = params.with_indifferent_access[:access_key]
   if access_key != ACCESS_KEY
@@ -62,7 +74,8 @@ def prepare_summary team_id
   Update.where(team_id:team_id).find_each do |up|
     summary << "#{up.user_name}: #{up.text}"
   end
-  summary.join('\n')
+  text = summary.join("\n")
+  prepare_response(text, 'in_channel')
 end
 
 def check_token
