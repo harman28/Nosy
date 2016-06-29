@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20160629054716) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "tokens", ["value"], name: "index_tokens_on_value", using: :btree
+  add_index "tokens", ["value"], name: "index_tokens_on_value", unique: true, using: :btree
 
   create_table "updates", force: :cascade do |t|
     t.string   "team_id",    null: false

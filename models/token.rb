@@ -1,7 +1,7 @@
 require './config/constants'
 
 class Token < ActiveRecord::Base
-  validates :value, presence: true
+  validates :value, presence: true, uniqueness: true
 
   after_save :add_to_recognized
 

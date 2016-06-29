@@ -44,7 +44,7 @@ post '/tokens' do
   if token.save
     token.to_json
   else
-    halt 400, @token.errors.to_json
+    halt 400, token.errors.to_json
   end
 end
 
