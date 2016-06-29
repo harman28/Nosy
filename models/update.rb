@@ -4,6 +4,6 @@ class Update < ActiveRecord::Base
   validates :user_name, presence: true
 
   def presentable
-    "Recorded: #{self.user_name} - #{self.text}"
+    "*Recorded* _Week \##{self.week}_: #{self.user_name} - #{self.text}"
   end
 end

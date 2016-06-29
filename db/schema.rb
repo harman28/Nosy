@@ -29,11 +29,12 @@ ActiveRecord::Schema.define(version: 20160629054716) do
     t.string   "user_id",    null: false
     t.string   "user_name",  null: false
     t.text     "text"
+    t.string   "week",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "updates", ["team_id"], name: "index_updates_on_team_id", using: :btree
-  add_index "updates", ["user_id"], name: "index_updates_on_user_id", using: :btree
+  add_index "updates", ["week"], name: "index_updates_on_week", using: :btree
 
 end
