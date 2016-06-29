@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629015312) do
+ActiveRecord::Schema.define(version: 20160629054716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "tokens", force: :cascade do |t|
+    t.string   "value",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tokens", ["value"], name: "index_tokens_on_value", using: :btree
 
   create_table "updates", force: :cascade do |t|
     t.string   "team_id",    null: false
