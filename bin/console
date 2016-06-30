@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 require "./app"
-require "pry"
 
+require "pry"
 Pry.start
+
+# require "irb"
+# IRB.start
